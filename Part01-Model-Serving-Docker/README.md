@@ -11,6 +11,12 @@ docker build -t fastapi-transformers:latest .
 
 # Run the Docker container
 docker run -d -p 8000:80 --name fastapi-transformers-container fastapi-transformers:latest
+
+# Checking running containers
+docker ps
+
+# Stop container
+docker stop <container-id> #can find via ps
 ```
 
 ## Additional Resources
