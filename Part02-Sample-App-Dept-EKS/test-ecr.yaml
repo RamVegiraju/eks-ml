@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ecr-test
+spec:
+  containers:
+  - name: ecr-test
+    image: 474422712127.dkr.ecr.us-east-1.amazonaws.com/eks-ml-app:latest
+  restartPolicy: Never
