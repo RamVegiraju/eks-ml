@@ -8,18 +8,27 @@ We containerize the app, push it to **Amazon ECR**, and expose it via an **AWS A
 ## Repository Structure
 
 ├── app.py                 # FastAPI app (Hugging Face model)
+
 ├── Dockerfile             # Container image definition
+
 ├── requirements.txt       # Python dependencies
-│
+
+
 ├── deployment.yaml        # Kubernetes Deployment spec
+
 ├── service.yaml           # Kubernetes Service spec (ALB-backed)
-│
+
 ├── build_and_push.sh      # Builds and pushes multi-arch image to ECR
+
 ├── create_cluster.sh      # Creates EKS cluster and node group
+
 ├── setup_alb_controller.sh # Installs AWS Load Balancer Controller
+
 ├── fix_rbac_access.sh     # Ensures IAM user/role has cluster-admin RBAC
+
 ├── invoke.sh              # Helper script to test inference endpoint
-└── README.md              # Project documentation
+
+├── README.md              # Project documentation
 
 
 ## Step by Step Guide
