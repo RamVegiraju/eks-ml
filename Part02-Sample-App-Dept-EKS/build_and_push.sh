@@ -1,25 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
-# ===== CONFIG =====
 AWS_REGION="us-east-1"
-AWS_ACCOUNT_ID="474422712127"
-REPO_NAME="eks-ml-app"
-IMAGE_TAG="latest"
+AWS_ACCOUNT_ID="474422712127" #replace with your account ID
+REPO_NAME="ml-translator-app" #replace with your ECR repo name
+IMAGE_TAG="v1"
 ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}"
 
-# ===== LOGIN TO ECR =====
-echo "🔑 Logging into Amazon ECR..."
+echo "🔑 Logging in to ECR..."
 aws ecr get-login-password --region "$AWS_REGION" | \
   docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 
-# ===== CREATE REPO IF NOT EXISTS =====
-echo "📦 Ensuring ECR repo exists: $REPO_NAME"
+echo "📦 Ensuring repo exists: $REPO_NAME"
 aws ecr describe-repositories --repository-names "$REPO_NAME" --region "$AWS_REGION" >/dev/null 2>&1 || \
   aws ecr create-repository --repository-name "$REPO_NAME" --region "$AWS_REGION"
 
-# ===== BUILD AND PUSH MULTI-ARCH IMAGE =====
-echo "🐳 Building and pushing multi-arch Docker image: $ECR_URI"
+echo "🐳 Building multi-arch image..."
 docker buildx create --use --name multiarch-builder >/dev/null 2>&1 || true
 docker buildx use multiarch-builder
 
@@ -28,6 +24,5 @@ docker buildx build \
   -t "$ECR_URI" \
   --push .
 
-# ===== VERIFY MANIFEST =====
-echo "🔍 Verifying manifest for $ECR_URI"
-docker buildx imagetools inspect "$ECR_URI" || docker manifest inspect "$ECR_URI"
+echo "🔍 Checking manifest..."
+docker buildx imagetools inspect "$ECR_URI"

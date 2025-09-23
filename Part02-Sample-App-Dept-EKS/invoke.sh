@@ -1,8 +1,4 @@
-#!/bin/bash
-ALB=$(kubectl get svc ml-fastapi -n ml-demo -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo "Testing FastAPI at: $ALB"
-
 curl -X POST \
-  http://$ALB/translate \
+  http://k8s-mldemo-translat-3f8933f89f-a986b5e5fbcf8503.elb.us-east-1.amazonaws.com/translate \
   -H "Content-Type: application/json" \
-  -d '{"text":"Hello from EKS!"}'
+  -d '{"text": "Hello, how are you?"}'

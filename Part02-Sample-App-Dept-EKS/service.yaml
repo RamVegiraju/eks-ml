@@ -1,20 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ml-fastapi
+  name: translator-service
   namespace: ml-demo
   annotations:
-    # Force ALB instead of NLB
     service.beta.kubernetes.io/aws-load-balancer-type: "alb"
-
-    # Make it internet-facing
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
-
-    # Explicitly tell controller which public subnets to use
-    service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-639ed605,subnet-cbd8dac5,subnet-b3b1e4ec,subnet-9ae4fcd7,subnet-23095f02"
+    #service.beta.kubernetes.io/aws-load-balancer-subnets: "subnet-639ed605,subnet-cbd8dac5,subnet-b3b1e4ec,subnet-9ae4fcd7,subnet-23095f02"
 spec:
   selector:
-    app: ml-fastapi
+    app: translator
   ports:
     - name: http
       port: 80

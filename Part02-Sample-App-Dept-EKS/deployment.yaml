@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ml-fastapi          # Deployment object name (can be different if you want)
+  name: translator-deployment # Deployment object name (can be different if you want)
   namespace: ml-demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: ml-fastapi       # must match Service selector
+      app: translator # must match Service selector
   template:
     metadata:
       labels:
-        app: ml-fastapi     # must match Service selector
+        app: translator # must match Service selector
     spec:
       containers:
-      - name: app
-        image: 474422712127.dkr.ecr.us-east-1.amazonaws.com/eks-ml-app:latest
+      - name: translator-container
+        image: 474422712127.dkr.ecr.us-east-1.amazonaws.com/ml-translator-app:v1
         ports:
-        - containerPort: 8000
+        - containerPort: 80
         resources:
           requests:
-            cpu: "250m"     # needs 0.25 CPU guaranteed
+            cpu: "250m" # needs 0.25 CPU guaranteed
             memory: "256Mi" # needs 256 MB guaranteed
           limits:
-            cpu: "500m"     # can burst up to 0.5 CPU max
+            cpu: "500m" # can burst up to 0.5 CPU max
             memory: "512Mi" # can use at most 512 MB
