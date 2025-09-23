@@ -5,22 +5,39 @@ We containerize the app, push it to **Amazon ECR**, and expose it via an **AWS A
 
 ---
 
-## Repository Structure
+This project demonstrates deploying a Hugging Face Transformer model with FastAPI to Amazon EKS.  
+It includes infrastructure setup, containerization, Kubernetes manifests, and helper scripts.
 
-├── app.py                  # FastAPI application serving Hugging Face model
-├── Dockerfile              # Multi-architecture container image definition
-├── requirements.txt        # Python dependencies
-│
-├── deployment.yaml         # Kubernetes Deployment specification
-├── service.yaml            # Kubernetes Service spec (ALB-backed)
-│
-├── build_and_push.sh       # Builds and pushes multi-arch image to ECR
-├── create_cluster.sh       # Creates EKS cluster and node group
-├── setup_alb_controller.sh # Installs AWS Load Balancer Controller
-├── fix_rbac_access.sh      # Ensures IAM user/role has cluster-admin RBAC
-├── invoke.sh               # Helper script to test inference endpoint
-└── README.md               # Project documentation
+## Files
 
+- **app.py** – FastAPI application serving a Hugging Face model.  
+- **Dockerfile** – Multi-architecture container image definition.  
+- **requirements.txt** – Python dependencies.  
+- **deployment.yaml** – Kubernetes Deployment specification.  
+- **service.yaml** – Kubernetes Service specification (ALB-backed).  
+- **build_and_push.sh** – Builds and pushes the image to Amazon ECR.  
+- **create_cluster.sh** – Creates an Amazon EKS cluster and node group.  
+- **setup_alb_controller.sh** – Installs the AWS Load Balancer Controller.  
+- **fix_rbac_access.sh** – Ensures IAM user/role has cluster-admin access.  
+- **invoke.sh** – Helper script to test the inference endpoint.  
+- **README.md** – Project documentation.  
+
+---
+
+## Kubernetes Fundamentals
+
+- **Namespace**  
+  Logical grouping for resources. Example: `ml-demo` keeps your ML app isolated.  
+
+- **Deployment**  
+  Defines how many replicas (pods) should run, what image to use, and manages scaling and rolling updates.  
+
+- **Pods**  
+  The smallest compute unit in Kubernetes. Each pod wraps your FastAPI container with the Hugging Face model.  
+
+- **Service**  
+  Provides stable networking and load balancing across pods.  
+  - In this project, a `LoadBalancer` type Service provisions an AWS ALB, giving you an external DNS endpoint to access your app. 
 
 ## Step by Step Guide
 
