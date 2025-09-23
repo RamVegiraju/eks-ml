@@ -7,11 +7,11 @@ We containerize the app, push it to **Amazon ECR**, and expose it via an **AWS A
 
 ## Repository Structure
 
-├── app.py                  # FastAPI app (Hugging Face model)
-├── Dockerfile              # Container image definition
+├── app.py                  # FastAPI application serving Hugging Face model
+├── Dockerfile              # Multi-architecture container image definition
 ├── requirements.txt        # Python dependencies
 │
-├── deployment.yaml         # Kubernetes Deployment spec
+├── deployment.yaml         # Kubernetes Deployment specification
 ├── service.yaml            # Kubernetes Service spec (ALB-backed)
 │
 ├── build_and_push.sh       # Builds and pushes multi-arch image to ECR
